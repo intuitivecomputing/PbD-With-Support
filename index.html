@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Robot Programming Interface</title>
+    <link rel="stylesheet" href="style_v2.css" />
+    <link rel="stylesheet" href="build/css/fontawesome.css" />
+    <link rel="stylesheet" href="build/css/all.min.css" />
+    <script src="build/three.min.js"></script>
+    <script src="build/eventemitter2.js"></script>
+    <script src="build/roslib.js"></script>
+    <script src="js/ColladaLoader.js"></script>
+    <!-- override the default ColladaLoader -->
+    <script src="build/ros3d.js"></script>
+  </head>
+  <body>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const fileInput = document.getElementById("file-input1");
+        const uploadButton = document.getElementById("upload-button1");
+        uploadButton.addEventListener("click", function () {
+        fileInput.click(); 
+        });
+      fileInput.addEventListener("change", function (e) {
+        const selectedFile = e.target.files[0]; 
+        if (selectedFile) {
+            uploadButton.innerText ="helpmenu json file is chosen, click to replace"
+            uploadButton.style.backgroundColor = "skyblue"
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const fileContent = e.target.result;
+              try {
+                    const helpmenuFile = JSON.parse(fileContent);
+                    const tabContainer = document.getElementById("tab-container");
+                    const contentsContainer = document.getElementById("tab-contents");
+                    helpmenuFile.forEach((item, index) => {
+                    var topics = [];
+                    var instructions = [];
+                    var highlights = [];
+                    var toggles = [];
+                    for (i = 1; i < item.length; i++) {
+                      topics[i - 1] = item[i].topic;
+                      instructions[i - 1] = item[i].instruction;
+                      highlights[i - 1] = item[i].highlights;
+                      toggles[i - 1] = item[i].toggle;
+                    }
+                    const button = document.createElement("button");
+                    button.id = `tab-${index + 1}`;
+                    button.className = "tablinks";
+                    button.textContent = item[0];
+                    button.onclick = function (event) {
+                      tabHandler(
+                        event,
+                        topics,
+                        instructions,
+                        highlights,
+                        contentsContainer,
+                        toggles
+                      );
+                    };
+                    tabContainer.appendChild(button);
+                  });
+                  } catch (error) {
+                      console.error("Error parsing JSON:", error);
+                      fileDataDiv.textContent = "Invalid JSON file.";
+                  }
+                };
+                reader.readAsText(selectedFile);
+        } else {
+            console.log("No file selected.");
+        }
+      });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        const fileInput = document.getElementById("file-input2");
+        const uploadButton = document.getElementById("upload-button2");
+        uploadButton.addEventListener("click", function () {
+        fileInput.click(); 
+        });
+      fileInput.addEventListener("change", function (e) {
+        const selectedFile = e.target.files[0]; 
+        if (selectedFile) {
+            const reader = new FileReader();
+            uploadButton.innerText ="chatbot assistance json file is chosen, click to replace"
+            uploadButton.style.backgroundColor = "skyblue"
+            reader.onload = function (e) {
+              const fileContent = e.target.result;
+              try {
+                    const chatbotFile = JSON.parse(fileContent);
+                    const assistIcon = document.getElementById("assistant-icon");
+                    const refresh = document.getElementById("restart-button");
+                    var intro = chatbotFile[0].intro;
+                    var topics = [];
+                    var conversations = [];
+                    for (var i = 0; i < chatbotFile[0].topics.length; i++) {
+                      topics[i] = chatbotFile[0].topics[i].topic;
+                      conversations[i] = chatbotFile[0].topics[i].conversation;
+                    }
+
+                    assistIcon.onclick = function (event) {
+                      chatbot(intro, topics, conversations);
+                    };
+                    refresh.onclick = function (event) {
+                      chatbot(intro, topics, conversations);
+                      };
+                    
+                  } catch (error) {
+                    
+                      console.error("Error parsing JSON:", error);
+                      fileDataDiv.textContent = "Invalid JSON file.";
+                  }
+                };
+                reader.readAsText(selectedFile);
+        } else {
+            console.log("No file selected.");
+        }
+      });
+    });
+    </script>
+    <div class="row">
+      <div id="col-1" class="column" style="background-color: peachpuff">
+        <h1>Program the robot:</h1>
+        <button id="add-waypoint" class="buttonb buttonb1">Add Waypoint</button>
+        <!--<button id="run-program" class="button button1">Run Program</button>-->
+        <button
+          id="run-program"
+          class="buttonb buttonb1"
+          onmouseover="showTextBubble('runProgram')"
+          onmouseout="hideTextBubble()"
+        >
+          Run Program
+        </button>
+        <button
+          id="new-program"
+          class="buttonb buttonb1"
+          onmouseover="showTextBubble('newProgram')"
+          onmouseout="hideTextBubble()"
+        >
+          New Program
+        </button>
+        <div id="textBubble" style="display: none"></div>
+        <ul id="draggable-list" class="draggable-list">
+          <ul id="draggable-list">
+            <!-- Module containers -->
+            <div id="module-container" style="display: none">
+              <span class="trash-icon">
+                <i class="fas fa-trash"></i>
+              </span>
+              <div class="module-header">
+                <input type="text" id="module-name" placeholder="Module Name" />
+              </div>
+              <ul id="module-items" class="draggable-list"></ul>
+            </div>
+          </ul>
+        </ul>
+        <div id="single-item-context-menu" class="context-menu">
+          <a id="delete-waypoint">Delete Waypoint</a>
+          <a id="modify-waypoint">Replace Waypoint</a>
+          <a id="exec-waypoint">Run Program to Here</a>
+        </div>
+        <div id="multiple-items-context-menu" class="context-menu">
+          <a id="add-module">Add waypoints to a module</a>
+          <a id="add-loop">Add waypoints to a loop</a>
+        </div>
+      </div>
+      <div id="col-2" class="column" style="background-color: #d7e5f0">
+        <h1>View the program:</h1>
+        <p>
+          Scroll down to zoom in. Scroll up to zoom out. <br />Drag to change
+          viewpoint.
+        </p>
+        <center>
+          <div id="program-visualization"></div>
+        </center>
+      </div>
+      <div class="column" style="background-color: palegoldenrod">
+        <h1>Help Menu:</h1>
+
+        <!-- Help Menu -->
+        <div id="help-menu">
+          <div class="tab" id="tab-container"></div>
+          <div id="tab-contents"></div>
+        </div>
+      </div>
+    </div>
+    <div id="assistant-container">
+      <div class="callout-container">
+        <i class="fa-solid fa-user fa-2xl" id="assistant-icon"></i>
+        <div id="minimize-button-container" >
+          <i
+            class="far fa-window-restore fa-xl"
+            style="display: none"
+            id="minimize-button"
+            title="Minimize"
+          ></i>
+        </div>
+        <div id="restart-button-container">
+          <i
+            class="fas fa-sync-alt fa-xl"
+            style="display: none"
+            id="restart-button"
+          ></i>
+        </div>
+        <span class="callout-bubble" id="callout-bubble"
+          ><b>Click me if you need assistance!</b></span
+        >
+        <div id="chat-container" style="display: none">
+          <div id="chat-messages"></div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <br id="statusIndicator">
+      <p id="connecting">Connecting to rosbridge...</p>
+      <p id="connected" style="color: #00d600; display: none">Connected</p>
+      <p id="error" style="color: #ff0000; display: none">
+        Error in the backend!
+      </p>
+      <p id="closed" style="display: none">Connection closed.</p>
+      <br>
+      <a href="https://docs.google.com/document/d/12tyInR8hcHN3QSnFdj-3iuF3VUZldVw9KjV0NjFBORo/edit" target="_blank"> tutorial for writing customization json files </a>
+      <div class="file-upload-buttons">
+        <form id="file-upload-form">
+          <button type="button" id="upload-button1" class="buttonb button4"> upload customizaion file for help menu </button>
+          <input type="file" id="file-input1" style="display: none" accept=".json" />
+        </form>
+        <form id="file-upload-form">
+          <button type="button" id="upload-button2" class="buttonb button4"> upload customizaion file for chatbot assistance </button>
+          <input type="file" id="file-input2" style="display: none" accept=".json" />
+        </form>
+      </div>
+      </br> 
+    </div>
+  </body>
+  <script src="js/script_v2.js"></script>
+</html>
