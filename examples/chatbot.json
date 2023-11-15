@@ -1,0 +1,909 @@
+[
+  {
+    "intro": "Hello, I am here to help you with programming a task on the robot. Which of the below best describes the task you want help programming?",
+    "topics": [
+      {
+        "topic": "The robot picks an item and places it somewhere",
+        "conversation": {
+          "1": {
+            "user": [
+              "I'd like help programming the robot to pick an place an object"
+            ],
+            "bot": [
+              "I can help you with that! Make sure to mark the position of the object before strarting programming so you can remeber its original location.",
+              "I'll guide you through the process of programming the robot to pic and place an object. Here is an overview of the steps you will complete: program the robot to approach the object, pick it up, move it, and place it.",
+              "Let's start this process now. First, click new program to create a new program."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "2" }],
+            "highlight": ["new-program"]
+          },
+          "2": {
+            "user": ["I created a new prgram"],
+            "bot": [
+              "now move the robot by hand to the position you want it to start from"
+            ],
+            "buttons": [
+              { "label": "I'm done", "next": "4" },
+              { "label": "I need more help", "next": "3" }
+            ],
+            "highlight": []
+          },
+          "3": {
+            "user": [
+              "I need more help with moving the robot to a starting position"
+            ],
+            "bot": [
+              "To move the robot, hold the robot anywhere and pull it towards the spot where you want it to start from. Move it somewhere above the object but not too close to things the robot could collide with."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "4" }],
+            "highlight": []
+          },
+          "4": {
+            "user": ["I did it"],
+            "bot": [
+              "Great! Now, click  on Add Waypoint to save the position into the program."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "5" }],
+            "highlight": ["add-waypoint"]
+          },
+          "5": {
+            "user": ["I did it!"],
+            "bot": [
+              "Now, you are going to program the robot to pick up the object.",
+              "You'll need to show the robot how to approach the object so that it can grasp it.",
+              "To do this, keep moving the robot gradually closer to the object and click Add Waypoint each time.",
+              "Continue adding waypoints until the robot is above the object.",
+              "Make sure you add at least one waypoint."
+            ],
+            "buttons": [
+              { "label": "I added one or more waypoints", "next": "9" },
+              { "label": "I need more help", "next": "6" }
+            ],
+            "highlight": ["add-waypoint"]
+          },
+          "6": {
+            "user": [
+              "I need more help with programming the robot to approach the object."
+            ],
+            "bot": [
+              "No problem, I will guide you through the process.",
+              "First, move the robot by hand to a new position. The new position should be closer to the object than the robot's current position. Also, there should be no items that the robot could collide with between the new position and the robot's current position."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "7" }],
+            "highlight": ["add-waypoint"]
+          },
+          "7": {
+            "user": ["I did it"],
+            "bot": [
+              "Great! Now, click on Add Waypoint to save the new position into the program."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "8" }],
+            "highlight": ["add-waypoint"]
+          },
+          "8": {
+            "user": ["I did it"],
+            "bot": [
+              "Okay, keep up the good work! Continue moving the robot gradually closer to the object and click Add Waypoint each time.",
+              "Continue adding waypoints until the robot is above the object.",
+              "Make sure you add at least one waypoint."
+            ],
+            "buttons": [
+              { "label": "I added one or more waypoints", "next": "9" }
+            ],
+            "highlight": []
+          },
+          "9": {
+            "user": ["I added at least one waypont"],
+            "bot": [
+              "Good job. Now, you are going to program the robot to grasp the object.",
+              "Move the robot so that the object to pick is at the center of the robot gripper's two fingers. Avoid touching the gripper's two fingers on anything else."
+            ],
+            "buttons": [
+              {
+                "label": "the object is at the center of gripper",
+                "next": "10"
+              }
+            ],
+            "highlight": []
+          },
+          "10": {
+            "user": [
+              "I'm done moving the robot so that the object is at the center of its gripper."
+            ],
+            "bot": [
+              "All right! Now it's time to close the robot's gripper so that it is grasping the object. Press down on the button on the robot to close the gripper. Keep pressing the button down until the object is firmly in the robot's gripper."
+            ],
+            "buttons": [
+              { "label": "I'm done", "next": "12" },
+              { "label": "I need more help", "next": "11" }
+            ],
+            "highlight": []
+          },
+          "11": {
+            "user": ["I need more help with closing the robot's gripper"],
+            "bot": [
+              "Okay, let me help. There is a button above the robot's gripper. Keep pushing it down until the gripper is firmly closed around the object."
+            ],
+            "buttons": [
+              { "label": "The robot has grasped the object", "next": "12" }
+            ],
+            "highlight": []
+          },
+          "12": {
+            "user": ["The robot's gripping the object now."],
+            "bot": [
+              "Good, now save the grip action into the program by clicking Add Waypoint."
+            ],
+            "buttons": [{ "label": "I added the waypoint", "next": "13" }],
+            "highlight": ["add-waypoint"]
+          },
+          "13": {
+            "user": ["I saved the grip action into the program"],
+            "bot": [
+              "Now, click on Click to add optional label on the new waypoint and type Grip, then click save."
+            ],
+            "buttons": [{ "label": "I named the waypoint", "next": "14" }],
+            "highlight": []
+          },
+          "14": {
+            "user": ["I named the waypoint"],
+            "bot": [
+              "Nice job! Now you're going to program the robot to move the object to the placement location.",
+              "Like you did earlier when approaching the object, keep moving the robot gradually closer to the placement location and click Add Waypoint each time.",
+              "Continue adding waypoints until the robot is above the object.",
+              "Make sure you add at least two waypoints."
+            ],
+            "buttons": [
+              { "label": "I added two or more waypoints", "next": "18" },
+              { "label": "I need more help", "next": "15" }
+            ],
+            "highlight": []
+          },
+          "15": {
+            "user": [
+              "I need more help with programming the robot to approach the placement location."
+            ],
+            "bot": [
+              "All right, I will guide you through the process.",
+              "First, move the robot by hand to a new position. The new position should be closer to the placement location than the robot's current position. Also, there should be no items that the robot could collide with between the new position and the robot's current position."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "16" }],
+            "highlight": []
+          },
+          "16": {
+            "user": ["I did it!"],
+            "bot": [
+              "Nice! Now, click on Add Waypoint to save the new position into the program."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "17" }],
+            "highlight": ["add-waypoint"]
+          },
+          "17": {
+            "user": ["I am done"],
+            "bot": [
+              "Okay, keep up the good work! Continue moving the robot gradually closer to just above the placement location and click Add Waypoint each time.",
+              "Continue adding waypoints until the robot is above the placement location.",
+              "Make sure you add at least two waypoints."
+            ],
+            "buttons": [
+              { "label": "I added two or more waypoints", "next": "18" }
+            ],
+            "highlight": []
+          },
+          "18": {
+            "user": ["I added two or more waypoints."],
+            "bot": [
+              "Great job. Now, you are going to program the robot to release the object.",
+              "Lower the robot gripper until the object inside the gripper is resting on the surface it will be placed on or hovering just above the area where it will be released."
+            ],
+            "buttons": [
+              { "label": "the object is at the release point", "next": "19" }
+            ],
+            "highlight": []
+          },
+          "19": {
+            "user": [
+              "I'm done moving the robot so that the object in the gripper is at the release point."
+            ],
+            "bot": [
+              "All right! Now it's time to open the robot's gripper so that it is releases the object. Press once on the button on the robot to open the gripper."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "20" }],
+            "highlight": []
+          },
+          "20": {
+            "user": ["The robot's released the object now."],
+            "bot": [
+              "Good, now save the release action into the program by clicking Add Waypoint."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "21" }],
+            "highlight": ["add-waypoint"]
+          },
+          "21": {
+            "user": ["I saved the release action into the program."],
+            "bot": [
+              "Good, now click on Click to add optional label on the new waypoint and type Release, then click save."
+            ],
+            "buttons": [
+              { "label": "I'm done naming the waypoint", "next": "22" }
+            ],
+            "highlight": []
+          },
+
+          "22": {
+            "user": [" I've named the waypoint  \"Release\" "],
+            "bot": [
+              "Wonderful! You've programmed the robot to pick and place an object. Press the button on the robot once to release the object from the robot's gripper. Then, place the object back to its original location, hold the emergency stop button, move a safe way away, and click Run Program whenever you're ready to play your program. Good job!",
+              "If you run the program and the robot does not move through the program correctly, you can try running the program again.",
+              "If the robot is still not moving correctly, then there is an error in your program and you will need to create a new program or edit your existing program.",
+              "You can click the restart button above this chat if you'd like my further assistance with this program."
+            ],
+            "buttons": [{ "label": "exit chat" }]
+          },
+          "highlight": []
+        }
+      },
+      {
+        "topic": "The robot picks and item and holds it for me.",
+        "conversation": {
+          "1": {
+            "user": [
+              "I'd like help programming the robot to pick and hold and object"
+            ],
+            "bot": [
+              "I can help you with that! Make sure to mark the position of the object before starting programming so you can remember its orginal location",
+              "I'll guide you through the process of programming the robot to pick and hold an object. Here is an overview of the steps you will complete: program the robot to approach the object, pick it up, and move it to the holding position.",
+              "Let's start this process now. First, click new program to create a new program."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "2" }],
+            "highlight": ["new-program"]
+          },
+          "2": {
+            "user": ["I created a new program!"],
+            "bot": [
+              "Now, move the robot by hand to the position you want it to start from."
+            ],
+            "buttons": [
+              { "label": "I'm done", "next": "5" },
+              { "label": "I need more help", "next": "3" }
+            ],
+            "highlight": []
+          },
+          "3": {
+            "user": [
+              "I need more help with moving the robot to a starting position."
+            ],
+            "bot": [
+              "To move the robot, hold the robot anywhere and pull it towards the spot where you want it to start from. Move it somewhere above the object but not too close to things the robot could collide with."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "4" }],
+            "highlight": []
+          },
+          "4": {
+            "user": ["I did it!"],
+            "bot": [
+              "Great! Now, click on Add Waypoint to save the position into the program."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "5" }],
+            "highlight": ["add-waypoint"]
+          },
+          "5": {
+            "user": ["I did it!"],
+            "bot": [
+              "Now, you are going to program the robot to pick up the object.",
+              "You'll need to show the robot how to approach the object so that it can grasp it.",
+              "To do this, keep moving the robot gradually closer to the object and click Add Waypoint each time.",
+              "Continue adding waypoints until the robot is above the object.",
+              "Make sure you add at least one waypoint."
+            ],
+            "buttons": [
+              { "label": "I added one or more waypoints.", "next": "9" },
+              { "label": "I need more help", "next": "6" }
+            ],
+            "highlight": ["add-waypoint"]
+          },
+          "6": {
+            "user": [
+              "I need more help with programming the robot to apporach the object"
+            ],
+            "bot": [
+              "No problem, I will guide you through the process.",
+              "First, move the robot by hand to a new position. The new position should be closer to the object than the robot's current position. Also, there should be no items that the robot could collide with between the new position and the robot's current position."
+            ],
+            "buttons": [{ "label": "I'm done.", "next": "7" }],
+            "highlight": ["add-waypoint"]
+          },
+          "7": {
+            "user": ["I did it!"],
+            "bot": [
+              "Great! Now, click on Add Waypoint to save the new position into the program."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "8" }],
+            "highlight": ["add-waypoint"]
+          },
+          "8": {
+            "user": ["I did it!"],
+            "bot": [
+              "Okay, keep up the good work! Continue moving the robot gradually closer to the object and click Add Waypoint each time.",
+              "Continue adding waypoints until the robot is above the object.",
+              "Make sure you add at least one waypoint."
+            ],
+            "buttons": [
+              { "label": "I added one or more waypoints", "next": "9" }
+            ],
+            "highlight": []
+          },
+          "9": {
+            "user": ["I added at least one waypoint"],
+            "bot": [
+              "Good job. Now, you are going to program the robot to grasp the object.",
+              "Move the robot so that the object to pick is at the center of the robot gripper's two fingers. Avoid touching the gripper's two fingers on anything else."
+            ],
+            "buttons": [
+              {
+                "label": "the object is at the center of gripper",
+                "next": "10"
+              }
+            ],
+            "highlight": []
+          },
+          "10": {
+            "user": [
+              "I'm done moving the robot so that the object is at the center of its gripper."
+            ],
+            "bot": [
+              "All right! Now it's time to close the robot's gripper so that it is grasping the object. Press down on the button on the robot to close the gripper. Keep pressing the button down until the object is firmly in the robot's gripper."
+            ],
+            "buttons": [
+              { "label": "I'm done", "next": "12" },
+              { "label": "I need more help", "next": "11" }
+            ],
+            "highlight": []
+          },
+          "11": {
+            "user": ["I need more help with closing the robot's gripper"],
+            "bot": [
+              "Okay, let me help. There is a button above the robot's gripper. Keep pushing it down until the gripper is firmly closed around the object."
+            ],
+            "buttons": [
+              { "label": "The robot has grasped the object", "next": "12" }
+            ],
+            "highlight": []
+          },
+          "12": {
+            "user": ["The robot's gripping the object now"],
+            "bot": [
+              "Good, now save the grip action into the program by clicking Add Waypoint."
+            ],
+            "buttons": [{ "label": "I added the waypoint", "next": "13" }],
+            "highlight": ["add-waypoint"]
+          },
+          "13": {
+            "user": ["I saved the grip action into the program."],
+            "bot": [
+              "Now, click on Click to add optional label on the new waypoint and type Grip, then click save."
+            ],
+            "buttons": [{ "label": "I named the waypoint", "next": "14" }],
+            "highlight": []
+          },
+          "14": {
+            "user": ["I named the waypoint"],
+            "bot": [
+              "Nice job! Now you're going to program the robot to move the object to the placement location.",
+              "Like you did earlier when approaching the object, keep moving the robot gradually closer to the placement location and click Add Waypoint each time.",
+              "Continue adding waypoints until the robot is above the object.",
+              "Make sure you add at least two waypoints."
+            ],
+            "buttons": [
+              { "label": "I added two or more waypoints", "next": "18" },
+              { "label": "I need more help", "next": "15" }
+            ],
+            "highlight": []
+          },
+          "15": {
+            "user": [
+              "I need more help with programming the robot to approach the placement location."
+            ],
+            "bot": [
+              "All right, I will guide you through the process.",
+              "First, move the robot by hand to a new position. The new position should be closer to the placement location than the robot's current position. Also, there should be no items that the robot could collide with between the new position and the robot's current position."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "16" }],
+            "highlight": []
+          },
+          "16": {
+            "user": ["I did it!"],
+            "bot": [
+              "Nice! Now, click on Add Waypoint to save the new position into the program."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "17" }],
+            "highlight": ["add-waypoint"]
+          },
+          "17": {
+            "user": ["I am done"],
+            "bot": [
+              "Okay, keep up the good work! Continue moving the robot gradually closer to just above the placement location and click Add Waypoint each time.",
+              "Continue adding waypoints until the robot is above the placement location.",
+              "Make sure you add at least two waypoints."
+            ],
+            "buttons": [
+              { "label": "I added two or more waypoints", "next": "18" }
+            ],
+            "highlight": []
+          },
+          "18": {
+            "user": ["I added two or more waypoints."],
+            "bot": [
+              "Wonderful! You've programmed the robot to pick and hold an object. Press the button on the robot once to release the object from the robot's gripper. Then, place the object back to its original location, hold the emergency stop button, move a safe way away, and click Run Program whenever you're ready to play your program. Good job!",
+              "If you run the program and the robot does not move through the program correctly, you can try running the program again.",
+              "If the robot is still not moving correctly, then there is an error in your program and you will need to create a new program or edit your existing program.",
+              "You can click the restart button above this chat if you'd like my further assistance with this program."
+            ],
+            "buttons": [{ "label": "exit chat" }]
+          },
+          "highlight": []
+        }
+      },
+      {
+        "topic": "The robot picks and item and performs a motion using it",
+        "conversation": {
+          "1": {
+            "user": [
+              "I'd like help programming the robot to pick and move an object."
+            ],
+            "bot": [
+              "I can help you with that! Make sure to mark the position of the object before starting programming so you can remember its original location.",
+              "I'll guide you through the process of programming the robot to pick and move an object. Here is an overview of the steps you will complete: program the robot to approach the object, pick it up, complete a motion, and repeat the motion if needed.",
+              "Let's start this process now. First, click new program to create a new program."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "2" }],
+            "highlight": ["new-program"]
+          },
+          "2": {
+            "user": ["I created a new prgram"],
+            "bot": [
+              "now move the robot by hand to the position you want it to start from"
+            ],
+            "buttons": [
+              { "label": "I'm done", "next": "4" },
+              { "label": "I need more help", "next": "3" }
+            ],
+            "highlight": []
+          },
+          "3": {
+            "user": [
+              "I need more help with moving the robot to a starting position"
+            ],
+            "bot": [
+              "To move the robot, hold the robot anywhere and pull it towards the spot where you want it to start from. Move it somewhere above the object but not too close to things the robot could collide with."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "4" }],
+            "highlight": []
+          },
+          "4": {
+            "user": ["I did it"],
+            "bot": [
+              "Great! Now, click  on Add Waypoint to save the position into the program."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "5" }],
+            "highlight": ["add-waypoint"]
+          },
+          "5": {
+            "user": ["I did it!"],
+            "bot": [
+              "Now, you are going to program the robot to pick up the object.",
+              "You'll need to show the robot how to approach the object so that it can grasp it.",
+              "To do this, keep moving the robot gradually closer to the object and click Add Waypoint each time.",
+              "Continue adding waypoints until the robot is above the object.",
+              "Make sure you add at least one waypoint."
+            ],
+            "buttons": [
+              { "label": "I added one or more waypoints", "next": "9" },
+              { "label": "I need more help", "next": "6" }
+            ],
+            "highlight": ["add-waypoint"]
+          },
+          "6": {
+            "user": [
+              "I need more help with programming the robot to approach the object."
+            ],
+            "bot": [
+              "No problem, I will guide you through the process.",
+              "First, move the robot by hand to a new position. The new position should be closer to the object than the robot's current position. Also, there should be no items that the robot could collide with between the new position and the robot's current position."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "7" }],
+            "highlight": ["add-waypoint"]
+          },
+          "7": {
+            "user": ["I did it"],
+            "bot": [
+              "Great! Now, click on Add Waypoint to save the new position into the program."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "8" }],
+            "highlight": ["add-waypoint"]
+          },
+          "8": {
+            "user": ["I did it"],
+            "bot": [
+              "Okay, keep up the good work! Continue moving the robot gradually closer to the object and click Add Waypoint each time.",
+              "Continue adding waypoints until the robot is above the object.",
+              "Make sure you add at least one waypoint."
+            ],
+            "buttons": [
+              { "label": "I added one or more waypoints", "next": "9" }
+            ],
+            "highlight": []
+          },
+          "9": {
+            "user": ["I added at least one waypont"],
+            "bot": [
+              "Good job. Now, you are going to program the robot to grasp the object.",
+              "Move the robot so that the object to pick is at the center of the robot gripper's two fingers. Avoid touching the gripper's two fingers on anything else."
+            ],
+            "buttons": [
+              {
+                "label": "the object is at the center of gripper",
+                "next": "10"
+              }
+            ],
+            "highlight": []
+          },
+          "10": {
+            "user": [
+              "I'm done moving the robot so that the object is at the center of its gripper."
+            ],
+            "bot": [
+              "All right! Now it's time to close the robot's gripper so that it is grasping the object. Press down on the button on the robot to close the gripper. Keep pressing the button down until the object is firmly in the robot's gripper."
+            ],
+            "buttons": [
+              { "label": "I'm done", "next": "12" },
+              { "label": "I need more help", "next": "11" }
+            ],
+            "highlight": []
+          },
+          "11": {
+            "user": ["I need more help with closing the robot's gripper"],
+            "bot": [
+              "Okay, let me help. There is a button above the robot's gripper. Keep pushing it down until the gripper is firmly closed around the object."
+            ],
+            "buttons": [
+              { "label": "The robot has grasped the object", "next": "12" }
+            ],
+            "highlight": []
+          },
+          "12": {
+            "user": ["The robot's gripping the object now."],
+            "bot": [
+              "Good, now save the grip action into the program by clicking Add Waypoint."
+            ],
+            "buttons": [{ "label": "I added the waypoint", "next": "13" }],
+            "highlight": ["add-waypoint"]
+          },
+          "13": {
+            "user": ["I saved the grip action into the program"],
+            "bot": [
+              "Now, click on Click to add optional label on the new waypoint and type Grip, then click save."
+            ],
+            "buttons": [{ "label": "I named the waypoint", "next": "14" }],
+            "highlight": []
+          },
+          "14": {
+            "user": ["I named the waypoint"],
+            "bot": [
+              "Nice job! Now you're going to program the robot to move the object to the placement location.",
+              "Like you did earlier when approaching the object, keep moving the robot gradually closer to the placement location and click Add Waypoint each time.",
+              "Continue adding waypoints until the robot is above the object.",
+              "Make sure you add at least two waypoints."
+            ],
+            "buttons": [
+              { "label": "I added two or more waypoints", "next": "18" },
+              { "label": "I need more help", "next": "15" }
+            ],
+            "highlight": []
+          },
+          "15": {
+            "user": [
+              "I need more help with programming the robot to approach the placement location."
+            ],
+            "bot": [
+              "All right, I will guide you through the process.",
+              "First, move the robot by hand to a new position. The new position should be closer to the placement location than the robot's current position. Also, there should be no items that the robot could collide with between the new position and the robot's current position."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "16" }],
+            "highlight": []
+          },
+          "16": {
+            "user": ["I did it!"],
+            "bot": [
+              "Nice! Now, click on Add Waypoint to save the new position into the program."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "17" }],
+            "highlight": ["add-waypoint"]
+          },
+          "17": {
+            "user": ["I am done"],
+            "bot": [
+              "Okay, keep up the good work! Continue moving the robot gradually closer to just above the placement location and click Add Waypoint each time.",
+              "Continue adding waypoints until the robot is above the placement location.",
+              "Make sure you add at least two waypoints."
+            ],
+            "buttons": [
+              { "label": "I added two or more waypoints", "next": "18" }
+            ],
+            "highlight": []
+          },
+          "18": {
+            "user": ["I added two or more waypoints."],
+            "bot": [
+              "Great job. Now, you are going to program the robot to complete the motion that uses the object.",
+              "Does the motion you want to program repeat more than once?"
+            ],
+            "buttons": [
+              { "label": "yes", "next": "19" },
+              { "label": "no", "next": "25" }
+            ],
+            "highlight": []
+          },
+          "19": {
+            "user": ["I want to program a repeating motion"],
+            "bot": [
+              "Here are the steps you need to take. First, you will program the waypoints for the motion you want the robot to repeat. Then, you will add the waypoints into a repeating loop.",
+              "Start by adding the waypoints required for completing the motion a single time.",
+              "Add at least two waypoints for the motion"
+            ],
+            "buttons": [
+              { "label": "I added at least two waypoints", "next": "20" }
+            ],
+            "highlight": ["draggable-list"]
+          },
+          "20": {
+            "user": [
+              "I'm done adding the waypoings required for completing the motion a single time "
+            ],
+            "bot": [
+              "Remember to add at least two waypoints for the motion. Please add at least one more waypoint."
+            ],
+            "buttons": [
+              { "label": "I added at least two waypoints", "next": "21" }
+            ],
+            "highlight": ["draggable-list"]
+          },
+          "21": {
+            "user": [
+              "I'm done adding the waypoings required for completing the motion a single time "
+            ],
+            "bot": [
+              "Great! Select the 2 waypoints you just added for the motion. You can select the waypoints by clicking on each of them."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "22" }],
+            "highlight": ["draggable-list"]
+          },
+
+          "22": {
+            "user": ["I'm done selecting all the waypoints."],
+            "bot": [
+              "Okay, now right click on the waypoints and click Add waypoints to a loop."
+            ],
+            "buttons": [{ "label": "I did it", "next": "23" }],
+            "highlight": []
+          },
+          "23": {
+            "user": ["I've added the waypoints into a loop."],
+            "bot": [
+              "Next, use the arrows on the number field to indicate how many times you want the robot to repeat the motion."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "24" }],
+            "highlight": ["draggable-list"]
+          },
+          "24": {
+            "user": ["I've added the waypoints into a loop."],
+            "bot": [
+              "Next, use the arrows on the number field to indicate how many times you want the robot to repeat the motion.",
+              "Wonderful! You've programmed the robot to pick and move an object. Press the button on the robot once to release the object from the robot's gripper. Then, place the object back to its original location, hold the emergency stop button, move a safe way away, and click Run Program whenever you're ready to play your program. Good job!",
+              "If you run the program and the robot does not move through the program correctly, you can try running the program again.",
+              "If the robot is still not moving correctly, then there is an error in your program and you will need to create a new program or edit your existing program",
+              "You can click the restart button above this chat if you'd like my further assistance with this program."
+            ],
+            "buttons": [{ "label": "exit chat" }],
+            "highlight": []
+          },
+          "25": {
+            "user": ["I want to program a motion that does not repeat."],
+            "bot": [
+              "Add the waypoints required for completing the motion you want the robot to do with the object.",
+              "Add at least two waypoints for the motion."
+            ],
+            "buttons": [
+              { "label": "I added two or more waypoints", "next": "26" }
+            ]
+          },
+          "26": {
+            "user": ["I added two or more waypoints."],
+            "bot": [
+              "Wonderful! You've programmed the robot to pick and move an object. Press the button on the robot once to release the object from the robot's gripper. Then, place the object back to its original location, hold the emergency stop button, move a safe way away, and click Run Program whenever you're ready to play your program. Good job!",
+              "If you run the program and the robot does not move through the program correctly, you can try running the program again.",
+              "If the robot is still not moving correctly, then there is an error in your program and you will need to create a new program or edit your existing program.",
+              "You can click the restart button above this chat if you'd like my further assistance with this program."
+            ],
+            "buttons": [{ "label": "exit chat" }]
+          }
+        }
+      },
+      {
+        "topic": "I want to edit an exisiting robot program",
+        "conversation": {
+          "1": {
+            "user": ["I'd like help editing an existing robot program."],
+            "bot": [
+              "I can help you with the following editing tasks. Please choose the one that best describes what you want to do."
+            ],
+            "buttons": [
+              { "label": "Add a new waypoint into my program", "next": "2" },
+              {
+                "label": "Change one of the waypoints in my program",
+                "next": "7"
+              },
+              {
+                "label": "Delete one of the waypoints in my program",
+                "next": "12"
+              },
+              {
+                "label": "Run the program up to a waypoint",
+                "next": "14"
+              }
+            ],
+            "highlight": []
+          },
+          "2": {
+            "user": ["I want to add a waypoint into my program"],
+            "bot": [
+              "Okay, I will help you add a new waypoint into your program",
+              "To start, move the robot to the position at which you want the new waypoint."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "3" }],
+            "highlight": []
+          },
+          "3": {
+            "user": ["I moved the robot to the position I want."],
+            "bot": [
+              "Great, now set the robot's gripper to the position you want it be in at this waypoint.",
+              "Hold the button above the robot down to close the gripper, press once to open it, or leave it as is if you are happy with it."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "4" }],
+            "highlight": []
+          },
+          "4": {
+            "user": ["I set the gripper how I want"],
+            "bot": [
+              "Good, now click on Add Waypoint to add the new waypoint into your program."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "5" }],
+            "highlight": ["add-waypoint"]
+          },
+          "5": {
+            "user": ["I've added the waypoint."],
+            "bot": [
+              "If you'd like, label the new waypoint with a name by clicking on Click to add optional label, typing a name, and then clicking Save.",
+              "If you don't want the waypoint you added to be the last point in the program, drag the waypoint to your desired position."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "6" }],
+            "highlight": []
+          },
+          "6": {
+            "user": ["I'm done"],
+            "bot": [
+              "Wonderful! You've added a new waypoint into your program. You can click on Run Program to see your edited program at work. Remember to place any objects that the robot will move back to their original positions, hold the emergency button, and move a safe way away before running the program.",
+              "If you run the program and the robot does not move through the program correctly, you can try running the program again.",
+              "If the robot is still not moving correctly, then there is an error in your program and you will need to create a new program or edit your existing program.",
+              "You can click the restart button above this chat if you'd like my further assistance with this program."
+            ],
+            "buttons": [{ "label": "exit chat" }],
+            "highlight": []
+          },
+          "7": {
+            "user": ["I want to replace a waypoint in my program"],
+            "bot": [
+              "Okay, I will help you replace an existing waypoint in your program.",
+              "If the waypoint you want to replace is inside a module or loop, please delete the module or loop using the trash can icon before replacing the waypoint.",
+              "I'll remind you to add the module or loop back once you finish replacing the waypoint.",
+              "Next, click the waypoint you want to replace from the list."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "8" }],
+            "highlight": ["draggable-list"]
+          },
+          "8": {
+            "user": ["I've clicked the waypoint."],
+            "bot": [
+              "Now, move the robot to the new position you want the waypoint that you selected to store."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "9" }],
+            "highlight": []
+          },
+          "9": {
+            "user": ["I moved the robot to the position I want."],
+            "bot": [
+              "Great, now set the robot's gripper to the position you want it be in at the waypoint you selected.",
+              "Hold the button above the robot down to close the gripper, press once to open it, or leave it as is if you are happy with it."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "10" }],
+            "highlight": []
+          },
+          "10": {
+            "user": ["I set the gripper how I want."],
+            "bot": [
+              "Good, now right click on the waypoint you selected and click Replace Waypoint. The waypoint you selected will now store the robot's current position and gripper state."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "11" }],
+            "highlight": []
+          },
+          "11": {
+            "user": ["I've clicked Replace Waypoint."],
+            "bot": [
+              "Wonderful! You've replaced an existing waypoint in your program. You can click on Run Program to see your edited program at work. Remember to place any objects that the robot will move back to their original positions, hold the emergency button, and move a safe way away before running the program.",
+              "Please remember to add back any module or loop containers that you deleted earlier if needed.",
+              "If you run the program and the robot does not move through the program correctly, you can try running the program again.",
+              "If the robot is still not moving correctly, then there is an error in your program and you will need to create a new program or edit your existing program.",
+              "You can click the restart button above this chat if you'd like my further assistance with this program."
+            ],
+            "buttons": [{ "label": "exit chat" }],
+            "highlight": []
+          },
+          "12": {
+            "user": ["I want to delete a waypoint in my program"],
+            "bot": [
+              "Okay, I will help you delete an existing waypoint in your program.",
+              "If the waypoint you want to delete is inside a module or loop, please delete the module or loop using the trash can icon before replacing the waypoint.",
+              "I'll remind you to add the module or loop back once you finish deleting the waypoint.",
+              "Click on the trash can icon on the waypoint in the list that you want to delete."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "13" }],
+            "highlight": ["draggable-list"]
+          },
+          "13": {
+            "user": ["I've clicked the trash can icon."],
+            "bot": [
+              "Wonderful! You've deleted an existing waypoint in your program. You can click on Run Program to see your edited program at work. Remember to place any objects that the robot will move back to their original positions, hold the emergency button, and move a safe way away before running the program.",
+              "Please remember to add back any module or loop containers that you deleted earlier if needed.",
+              "If you run the program and the robot does not move through the program correctly, you can try running the program again.",
+              "If the robot is still not moving correctly, then there is an error in your program and you will need to create a new program or edit your existing program.",
+              "You can click the restart button above this chat if you'd like my further assistance with this program."
+            ],
+            "buttons": [{ "label": "exit chat" }],
+            "highlight": []
+          },
+          "14": {
+            "user": ["I want to run my program up to a waypoint"],
+            "bot": [
+              "Okay, I will help you run your program up until a waypoint.",
+              "If the waypoint you want to run the program to is inside a module or loop, please delete the module or loop using the trash can icon before replacing the waypoint.",
+              "I'll remind you to add the module or loop back once you finish running the program to the waypoint.",
+              "To start, click the waypoint you want to run the program until from the list."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "15" }],
+            "highlight": ["draggable-list"]
+          },
+          "15": {
+            "user": ["I've clicked the waypoint."],
+            "bot": [
+              "Good, now right click on the waypoint you selected and click Run Program to Here. The program will now run until the waypoint you selected."
+            ],
+            "buttons": [{ "label": "I'm done", "next": "16" }],
+            "highlight": []
+          },
+          "16": {
+            "user": ["I've clicked Run Program to Here."],
+            "bot": [
+              "Wonderful! You've moved the robot to a waypoint! You can now continue editing or running the program, or you can create a new program. Remember to place any objects that the robot will move back to their original positions, hold the emergency button, and move a safe way away before running the program.",
+              "Please remember to add back any module or loop containers that you deleted earlier if needed.",
+              "If you run the program and the robot does not move through the program correctly, you can try running the program again.",
+              "If the robot is still not moving correctly, then there is an error in your program and you will need to create a new program or edit your existing program.",
+              "You can click the restart button above this chat if you'd like my further assistance with this program."
+            ],
+            "buttons": [{ "label": "exit chat" }],
+            "highlight": []
+          }
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,139 @@
+[
+  [
+    "creating",
+    {
+      "topic": "Help me with creating a program",
+      "instruction": [
+        "Move to the robot and guide it by hand to the position you want it to go to.",
+        "Move the robot's gripper using the button on the robot if you need to.",
+        "Click Add Waypoint to save the point into your program. Add an optional label to the waypoint by clinking on Click to add optional label if desired."
+      ],
+      "highlights": [[], [], []],
+      "toggle": [
+        [],
+        [],
+        [
+          [
+            "Click here if this is your last way point",
+            "After you have added your final waypoint, you may edit or run your program. Click the Editing or Running tabs on the help menu for additional instructions, or click on the Creating tab for instructions on creating a new program."
+          ]
+        ]
+      ]
+    }
+  ],
+  [
+    "editing",
+    {
+      "topic": "Help me with adding waypoints into a module.",
+      "instruction": [
+        "Select each of the waypoints you want to add to the module by clicking on them one by one. Note that you must select at least two waypoints and the waypoints must be consecutive.",
+        "Right click on the waypoints. Then, click the Add waypoints to a module.",
+        "Double click on Module Name to change the name of the module, if desired.",
+        "Note that you cannot edit the waypoints inside a module. If you want to make changes to the module, you must delete it and create it again. Use the trash can icon to delete a module, if desired."
+      ],
+      "highlights": [
+        ["draggable-list"],
+        ["draggable-list"],
+        ["draggable-list"],
+        ["draggable-list"]
+      ],
+      "toggle": [[], [], [], []]
+    },
+    {
+      "topic": "Help me with adding waypoints into a loop.",
+      "instruction": [
+        "Select each of the waypoints you want to add to the loop by clicking on them one by one. Note that you must select at least two waypoints and the waypoints must be consecutive.",
+        "Right click on the waypoints. Then, click the Add waypoints to a loop.",
+        "Use the arrows on the number field to specify the number of times you want the loop to repeat. The robot will move through the path specified by the waypoints inside the loop for the number of times you choose.",
+        "Note that you cannot edit the waypoints inside a loop. If you want to make changes to the loop, you must delete it and create it again. Use the trash can icon to delete a loop, if desired."
+      ],
+      "highlights": [
+        ["draggable-list"],
+        ["draggable-list"],
+        ["draggable-list"],
+        ["draggable-list"]
+      ],
+      "toggle": [[], [], [], []]
+    },
+    {
+      "topic": "Help me with adding a new waypoint into my program.",
+      "instruction": [
+        "Move to the robot and guide it by hand to the position you want it to go to.",
+        "Move the robot's gripper using the button on the robot if you need to.",
+        "Click Add Waypoint to save the point into your program. Add an optional label to the waypoint if desired.",
+        "Drag the waypoint you added to its correct spot in the sequence if needed."
+      ],
+      "highlights": [["col-2"], ["col-2"], ["add-waypoint"], []],
+      "toggle": [[], [], [], []]
+    },
+    {
+      "topic": "Help me with replacing an existing waypoint.",
+      "instruction": [
+        "Move the robot to the new position you want the robot to be at for the waypoint.",
+        "Set the gripper the way you want. Move the robot's gripper using the button on the robot if you need to.",
+        "Right click on the waypoint you want to replace, then click on the Replace Waypoint option. The waypoint will now store the robot's current position. Note that you cannot replace the waypoints inside a module or loop. If you want to make changes to waypoints inside a module or loop, you must delete the module or loop and create it again."
+      ],
+      "highlights": [["col-2"], ["col-2"], ["draggable-list"]],
+      "toggle": [[], [], [], []]
+    },
+    {
+      "topic": "Help me with removing a waypoint from my program.",
+      "instruction": [
+        "Click the trash can icon to the right of the waypoint. Note that you cannot delete the waypoints inside a module or loop. If you want to make changes to waypoints inside a module or loop, you must delete the module or loop and create it again."
+      ],
+      "highlights": [["draggable-list"]],
+      "toggle": [[], [], [], []]
+    },
+    {
+      "topic": "Help me with moving the robot to a particular waypoint.",
+      "instruction": [
+        "Take the emergency button in your hand. You can press it if the robot is about to do something dangerous.",
+        "Move a safe way away from the robot.",
+        "Right click on the waypoint you want the robot to move to. Then, click the Run Program to Here option. Note that you cannot move to the waypoints inside a module or loop."
+      ],
+      "highlights": [[], [], ["draggable-list"]],
+      "toggle": [[], [], [], []]
+    }
+  ],
+  [
+    "running",
+    {
+      "topic": "Help me with running my program.",
+      "instruction": [
+        "Remember to move any objects that will be moved by the robot back to their original locations before running the program. Then, take the emergency button in your hand. You can press it if the robot is about to do something dangerous.",
+        "Move a safe way away from the robot.",
+        "Click on run program. The robot will now play through the program."
+      ],
+      "highlights": [[], [], ["run-program"]],
+      "toggle": [
+        [],
+        [],
+        [
+          [
+            "Click here if the program did not execute correctly.",
+            "You may try running the program again. If it is still not running correctly, there is an error and you will need to create a new program or edit your current program. Click the Creating or Editing tabs for additional instructions."
+          ]
+        ]
+      ]
+    },
+    {
+      "topic": "Help me with running my program up to a specific waypoint.",
+      "instruction": [
+        "Remember to move any objects that will be moved by the robot back to their original locations before running the program. Then, take the emergency button in your hand. You can press it if the robot is about to do something dangerous.",
+        "Move a safe way away from the robot.",
+        "Delete any module or loop that the waypoint is inside using the trash can icon. Then, click on the waypoint in the list that you want the robot to move to. Then, right click to pull up the menu. Click the Run Program to Here option. The robot will now move to the waypoint. You can now add back the module or loop you deleted earlier."
+      ],
+      "highlights": [[], [], ["draggable-list"]],
+      "toggle": [
+        [],
+        [],
+        [
+          [
+            "Click here if the program did not execute correctly.",
+            "You may try running the program again. If it is still not running correctly, there is an error and you will need to create a new program or edit your current program. Click the Creating or Editing tabs for additional instructions."
+          ]
+        ]
+      ]
+    }
+  ]
+]
