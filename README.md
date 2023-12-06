@@ -21,7 +21,7 @@ The back-end code has been deployed on a system running Ubuntu 20.04 (64-bit). T
 The programming system may be used with any robot manipulator with kinesthetic teaching capabilities; instructions for how to set up the system for different robots are available below. 
 
 ### Required ROS Packages
-[icl_kortex](https://github.com/intuitivecomputing/icl_kortex)
+
 
 [ros3djs](https://github.com/RobotWebTools/ros3djs)
 
@@ -30,3 +30,12 @@ The programming system may be used with any robot manipulator with kinesthetic t
 - - - -
 
 ## Usage
+To run the system, open a terminal on Ubuntu and run the following scripts:
+- Run the driver for your robot.
+- On a new tab or terminal, run the following script: `roslaunch prog_support_backend web_communication.launch`
+- On a new tab or terminal, run the following script: `rosrun prog_support_backend backend`
+- On a new tab or terminal, run the following script: `rosrun marker_package marker_publisher.py`
+
+Then, open up a web browser and pull up the index.html file (or appropriate domain if you have hosted the frontend interface on the web).
+
+- [icl_kortex](https://github.com/intuitivecomputing/icl_kortex)
