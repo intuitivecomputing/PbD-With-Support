@@ -3,7 +3,7 @@ This repository contains the source code for an end-user robot programming syste
 
 ## Contents
 - [frontend]([https://github.com/intuitivecomputing/demoshop/tree/main/demoshop-windows](https://github.com/intuitivecomputing/PbD-With-Support/tree/main/frontend)): This directory contains the front-end code for the front-end web interface. 
-
+  - [index.html](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/frontend/index.html) is the entry point for the frontend system.
 - - - -
 
 ## Software and Hardware Requirements for Running the Programming System
