@@ -10,4 +10,4 @@ This repository contains the source code for an end-user robot programming syste
 ## Software and Hardware Requirements for Running the Programming System
 
 ### Front-End
-The  front-end code has been deployed on a system running Ubuntu 20.04 (64-bit). The software was hosted using an Apache server
+The  front-end code has been deployed on a system running Ubuntu 20.04 (64-bit). The software was hosted using an [Apache](https://httpd.apache.org/download.cgi) server (version 2.4.41) and was run on [Mozilla Firefox for Ubuntu](https://www.mozilla.org/en-US/firefox/linux/) Version 117.0 (64-bit).
