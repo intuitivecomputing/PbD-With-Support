@@ -21,4 +21,11 @@ The back-end code has been deployed on a system running Ubuntu 20.04 (64-bit). T
 The programming system may be used with any robot manipulator with kinesthetic teaching capabilities; instructions for how to set up the system for different robots are available below. 
 
 ### Required ROS Packages
+[icl_kortex](https://github.com/intuitivecomputing/icl_kortex)
+
+[ros3djs](https://github.com/RobotWebTools/ros3djs)
+
+[roslibjs](https://github.com/RobotWebTools/roslibjs)
+
+- - - -
 
