@@ -1,0 +1,11 @@
+# Goal
+uint8 request
+int8 optional_index_1
+int8 optional_index_2
+int8 optional_index_3
+---
+# Result
+string conclusion
+---
+# Feedback
+string status
