@@ -1,6 +1,8 @@
 # PbD-With-Support
 This repository contains the source code for an end-user robot programming system that can be used for programming a robot manipulator by kinesthetic demonstration; the system includes a customizable help menu and chat assistant to support end-users during programming. The system consists of a front-end web interface and back-end software that runs on Ubuntu 20.04 using [ROS](https://www.ros.org/) Noetic. 
 
+The programming system is designed to be customized for use with different robots or different support content. We include instructions on how to customize this system in this README.
+
 ## Contents
 - [frontend](https://github.com/intuitivecomputing/PbD-With-Support/tree/main/frontend): This directory contains the code for the front-end web interface. 
   - [index.html](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/frontend/index.html) is the entry point for the front-end system.
@@ -21,7 +23,6 @@ The back-end code has been deployed on a system running Ubuntu 20.04 (64-bit). T
 The programming system may be used with any robot manipulator with kinesthetic teaching capabilities; instructions for how to set up the system for different robots are available below. 
 
 ### Required ROS Packages
-
 
 [ros3djs](https://github.com/RobotWebTools/ros3djs)
 
