@@ -5,31 +5,12 @@
 #include <prog_support_backend/InterfaceRequestAction.h>
 #include <marker_package/Waypoint.h>
 
-#include <DoublyLinkedList_v2.h>
+#include <DoublyLinkedList.h>
+
+// Include any additional files requored for the robot you are using
 
 typedef actionlib::SimpleActionServer<prog_support_backend::InterfaceRequestAction> Server;
 enum  Requests {TEACH=0, STOP_TEACH=1, ADD_WAYPOINT=2, DEL_WAYPOINT=3, MOVE_WAYPOINT=4, REP_WAYPOINT=5, EXEC=6, SELECT=7, EXEC_UNTIL=8, CLEAR_PROG=9, GO_TO=10, ADD_LOOP=11, DEL_LOOP=12};  // Types of requests from action client
-
-#include <kortex_driver/SetAdmittance.h>
-#include <kortex_driver/GetMeasuredJointAngles.h>
-#include <kortex_driver/JointAngle.h>
-#include <kortex_driver/JointAngles.h>
-#include <kortex_driver/GetMeasuredGripperMovement.h>
-#include <kortex_driver/ExecuteWaypointTrajectory.h>
-#include <kortex_driver/ValidateWaypointList.h>
-#include <kortex_driver/Waypoint.h>
-#include <kortex_driver/WaypointList.h>
-#include <kortex_driver/AngularWaypoint.h>
-#include <kortex_driver/ActionNotification.h>
-#include <kortex_driver/ActionEvent.h>
-#include <kortex_driver/OnNotificationActionTopic.h>
-#include <kortex_driver/SendGripperCommand.h>
-#include <kortex_driver/GripperMode.h>
-#include <kortex_driver/JointSpeedSoftLimits.h>
-#include <kortex_driver/JointAccelerationSoftLimits.h>
-#include <kortex_driver/SetJointSpeedSoftLimits.h>
-#include <kortex_driver/SetJointAccelerationSoftLimits.h>
-#include <kortex_driver/Base_ClearFaults.h>
 
 enum AdmittanceModes {JOINT=2, DISABLED=4};
 enum ControlModes {ANGULAR_TRAJECTORY=4};
@@ -37,129 +18,48 @@ const double GRIPPER_MAX_ABSOLUTE_POS = 0.8;
 const double GRIPPER_MIN_ABSOLUTE_POS = 0.0;
 const int NUM_JOINTS = 7;
 
-//#include <moveit/move_group_interface/move_group_interface.h>
-//
-// Kortex References
-// Services source code: https://github.com/Kinovarobotics/ros_kortex/blob/noetic-devel/kortex_driver/src/generated/robot/base_services.cpp
-// Gripper enum: https://github.com/Kinovarobotics/kortex/blob/master/api_cpp/doc/markdown/enums/Base/GripperMode.md
-/*roslaunch kortex_driver icl_kortex_driver.launch
-  roslaunch prog_support_backend web_communication.launch
-  
-*/
-
+// Replace double with the data type for your robot's joint values
 DoublyLinkedList<std::vector<double>> userProgram;
 
 ros::Publisher waypoint_pub;
 ros::Publisher exec_pub;
 
-std::atomic<int> last_action_notification_event{0};
 
-void notification_callback(const kortex_driver::ActionNotification& notif)
-{
-  last_action_notification_event = notif.action_event;
-}
-
-bool wait_for_action_end_or_abort()
-{
-  while (ros::ok())
-  {
-    if (last_action_notification_event.load() == kortex_driver::ActionEvent::ACTION_END)
-    {
-      ROS_INFO("Received ACTION_END notification");
-      return true;
-    }
-    else if (last_action_notification_event.load() == kortex_driver::ActionEvent::ACTION_ABORT)
-    {
-      ROS_INFO("Received ACTION_ABORT notification");
-      return false;
-    }
-    ros::spinOnce();
-  }
-  return true;
-}
-
+// activateTeachMode
+// This function should activate your robot's kinesthetic teaching functionality.
+// Input: ROS node handle
+// Output: Boolean value indicating whether the robot's kinesthetic teaching functionality was successfully activated
 bool activateTeachMode(ros::NodeHandle &n)
 {
-  ros::ServiceClient service_client_set_admittance = n.serviceClient<kortex_driver::SetAdmittance>("/base/set_admittance");
-  kortex_driver::SetAdmittance service_set_admittance;
-  service_set_admittance.request.input.admittance_mode = JOINT;
-  // Send the command
-  if (service_client_set_admittance.call(service_set_admittance))
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+  /* Insert code here */
+  return false;
 }
 
+
+// deactivateTeachMode
+// This function should deactivate your robot's kinesthetic teaching functionality.
+// Input: ROS node handle
+// Output: Boolean value indicating whether the robot's kinesthetic teaching functionality was successfully deactivated
 bool deactivateTeachMode(ros::NodeHandle &n)
 {
-  ros::ServiceClient service_client_set_admittance = n.serviceClient<kortex_driver::SetAdmittance>("/base/set_admittance");
-  kortex_driver::SetAdmittance service_set_admittance;
-  service_set_admittance.request.input.admittance_mode = DISABLED;
-  // Send the command
-  if (service_client_set_admittance.call(service_set_admittance))
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+  /* Insert code here */
+  return false;
 }
 
-bool clearFaults(ros::NodeHandle &n)
+// getCurrentJointStates
+// This function will populate a vector that you provide with the robot's current joint states and its gripper state
+// Input: ROS node handle, vector to hold robot's joint states and gripper state (the first n values will contain the robot's joint states, and the (n + 1)th value will contain the robot's gripper state); replace double with the data type for your robot's joint values)
+// Output: Boolean value indicating whether the vector you provided was successfully populated with the robot's current joint states and its gripper state
+bool getCurrentJointStates(ros::NodeHandle &n, std::vector<double> &waypoint)
 {
-  ros::ServiceClient service_client_clear_faults = n.serviceClient<kortex_driver::Base_ClearFaults>("/base/clear_faults");
-  kortex_driver::Base_ClearFaults service_clear_faults;
-
-  // Clear the faults
-  if (!service_client_clear_faults.call(service_clear_faults))
-  {
-    std::string error_string = "Failed to clear the faults";
-    ROS_ERROR("%s", error_string.c_str());
-    return false;
-  }
-
-  // Wait a bit
-
-  //std::this_thread::sleep_for(std::chrono::milliseconds(500));
-  ros::Duration(0.5).sleep(); 
+  /* Insert code here */
   return true;
 }
 
-bool getWaypoint(ros::NodeHandle &n, std::vector<double> &waypoint)
-{
-  ros::ServiceClient service_client_get_measured_joint_angles = n.serviceClient<kortex_driver::GetMeasuredJointAngles>("/base/get_measured_joint_angles");
-  kortex_driver::GetMeasuredJointAngles service_get_measured_joint_angles;
-  if (!service_client_get_measured_joint_angles.call(service_get_measured_joint_angles))
-  {
-    std::string error_string = "Failed to call GetMeasuredJointAngles";
-    ROS_ERROR("%s", error_string.c_str());
-    return false;
-  }
-  kortex_driver::JointAngles currentJointValues = service_get_measured_joint_angles.response.output;
-  for (unsigned int i = 0; i < NUM_JOINTS; i++)
-  {
-    waypoint.push_back(currentJointValues.joint_angles[i].value);
-  }
-
-  ros::ServiceClient service_client_get_measured_gripper_movement = n.serviceClient<kortex_driver::GetMeasuredGripperMovement>("/base/get_measured_gripper_movement");
-  kortex_driver::GetMeasuredGripperMovement service_get_measured_gripper_movement;
-  service_get_measured_gripper_movement.request.input.mode = 3; // 3 is position control
-  if (!service_client_get_measured_gripper_movement.call(service_get_measured_gripper_movement))
-  {
-    std::string error_string = "Failed to call GetMeasuredGripperMovement";
-    ROS_ERROR("%s", error_string.c_str());
-    return false;
-  }
-  waypoint.push_back(service_get_measured_gripper_movement.response.output.finger[0].value);
-  return true;
-}
-
-//void addWaypoint(moveit::planning_interface::MoveGroupInterface &armGroup, moveit::planning_interface::MoveGroupInterface &gripperGroup)
+// addWaypoint
+// This function adds a new waypoint into the user's program and publishes a marker representing the waypoint for the frontend interface to display
+// Input: ROS node handle
+// Output: None
 void addWaypoint(ros::NodeHandle &n)
 {
   std::vector<double> waypoint;
@@ -171,12 +71,13 @@ void addWaypoint(ros::NodeHandle &n)
   waypoint_pub.publish(msg);
 }
 
-//bool replaceWaypoint(moveit::planning_interface::MoveGroupInterface &armGroup, moveit::planning_interface::MoveGroupInterface &gripperGroup, int index)
+// replaceWaypoint
+// This function replaces the values stored at a waypoint at a specified index with the values corresponding to the robot's current joint states and gripper state.
+// Input: ROS node handle, integer specifying the index of the waypoint being replaced
+// Output: Boolean value indicating whether the values at the specified waypoint were replaced successfully
 bool replaceWaypoint(ros::NodeHandle &n, int index)
 {
   std::vector<double> waypoint;
-  /*waypoint = armGroup.getCurrentJointValues();
-  waypoint.push_back(gripperGroup.getCurrentJointValues()[0]);*/
   getWaypoint(n, waypoint);
   marker_package::Waypoint msg;
   msg.num = index + 1;
@@ -184,114 +85,30 @@ bool replaceWaypoint(ros::NodeHandle &n, int index)
   return userProgram.replace(index, waypoint);
 }
 
-// https://raw.githubusercontent.com/Kinovarobotics/ros_kortex/noetic-devel/kortex_examples/src/full_arm/example_full_arm_movement.cpp
+// moveToWaypoint
+// This function will move the robot to the provided set of joint states
+// Input: ROS node handle, vector containing a set of robot joint states (replace double with the data type for your robot's joint values)
+// Output: Boolean value indicating whether the robot moved to the specified configuration
 bool moveToWaypoint(ros::NodeHandle &n, std::vector<double> pt)
 {
-  last_action_notification_event = 0;
-  ros::ServiceClient service_client_execute_waypoints_trajectory = n.serviceClient<kortex_driver::ExecuteWaypointTrajectory>("/base/execute_waypoint_trajectory");
-  kortex_driver::ExecuteWaypointTrajectory service_execute_waypoints_trajectory;
-
-  ros::ServiceClient service_client_validate_waypoint_list = n.serviceClient<kortex_driver::ValidateWaypointList>("/base/validate_waypoint_list");
-  kortex_driver::ValidateWaypointList service_validate_waypoint_list;
-
-  kortex_driver::WaypointList trajectory;
-  kortex_driver::Waypoint waypoint;
-  kortex_driver::AngularWaypoint angularWaypoint;
-
-  for (unsigned int i = 0; i < NUM_JOINTS; i++)
-  {
-    angularWaypoint.angles.push_back(pt[i]);
-  }
-
-  int angularDuration = 0;
-  angularWaypoint.duration = angularDuration;
-
-  waypoint.oneof_type_of_waypoint.angular_waypoint.push_back(angularWaypoint);
-  trajectory.duration = 0;
-  trajectory.use_optimal_blending = false;
-  trajectory.waypoints.push_back(waypoint);
-
-  service_validate_waypoint_list.request.input = trajectory;
-  if (!service_client_validate_waypoint_list.call(service_validate_waypoint_list))
-  {
-    std::string error_string = "Failed to call ValidateWaypointList";
-    ROS_ERROR("%s", error_string.c_str());
-    return false;
-  }
-
-  int error_number = service_validate_waypoint_list.response.output.trajectory_error_report.trajectory_error_elements.size();
-  static const int MAX_ANGULAR_DURATION = 600;
-
-  while (error_number >= 1 && angularDuration < MAX_ANGULAR_DURATION)
-  {
-    angularDuration++;
-    trajectory.waypoints[0].oneof_type_of_waypoint.angular_waypoint[0].duration = angularDuration;
-
-    service_validate_waypoint_list.request.input = trajectory;
-    if (!service_client_validate_waypoint_list.call(service_validate_waypoint_list))
-    {
-      std::string error_string = "Failed to call ValidateWaypointList";
-      ROS_ERROR("%s", error_string.c_str());
-      return false;
-    }
-    error_number = service_validate_waypoint_list.response.output.trajectory_error_report.trajectory_error_elements.size();
-  }
-
-  if (angularDuration >= MAX_ANGULAR_DURATION)
-  {
-    // It should be possible to reach position within 30s
-    // WaypointList is invalid (other error than angularWaypoint duration)
-    std::string error_string = "WaypointList is invalid";
-    ROS_ERROR("%s", error_string.c_str());
-    return false;
-  }
-
-  service_execute_waypoints_trajectory.request.input = trajectory;
-
-  if (service_client_execute_waypoints_trajectory.call(service_execute_waypoints_trajectory))
-  {
-    ROS_INFO("The joint angles were sent to the robot.");
-  }
-  else
-  {
-    std::string error_string = "Failed to call ExecuteWaypointTrajectory";
-    ROS_ERROR("%s", error_string.c_str());
-    return false;
-  }
-
-  wait_for_action_end_or_abort();
+  /* Insert code here */
+  return false;
 }
 
+// sendGripperCommand
+// This function will move the robot's gripper to the specified value
+// Input: ROS node handle, double value containing the desired state for the robot's gripper (replace double with the data type for your robot's gripper value)
+// Output: Boolean value indicating whether the gripper moved to the specified configuration
 bool sendGripperCommand(ros::NodeHandle n, double value)
 {
-  // Initialize the ServiceClient
-  ros::ServiceClient service_client_send_gripper_command = n.serviceClient<kortex_driver::SendGripperCommand>("/base/send_gripper_command");
-  kortex_driver::SendGripperCommand service_send_gripper_command;
-
-  // Initialize the request
-  kortex_driver::Finger finger;
-  finger.finger_identifier = 0;
-  finger.value = value;
-  std::cout << "Moving gripper to position " << value << std::endl;
-  service_send_gripper_command.request.input.gripper.finger.push_back(finger);
-  service_send_gripper_command.request.input.mode = kortex_driver::GripperMode::GRIPPER_POSITION;
-
-  if (service_client_send_gripper_command.call(service_send_gripper_command))  
-  {
-    ROS_INFO("The gripper command was sent to the robot.");
-  }
-  else
-  {
-    std::string error_string = "Failed to call SendGripperCommand";
-    ROS_ERROR("%s", error_string.c_str());
-    return false;
-  }
-  ros::Duration(0, 500000000).sleep();
-  return true;
+  /* Insert code here */
+  return false;
 }
 
-// https://github.com/Kinovarobotics/ros_kortex/blob/373cacd4e3f7bba6dddaeb3451f31dbcaa64beb8/kortex_examples/src/move_it/example_move_it_trajectories.py#L103
-//bool executeWaypoint(std::vector<double> waypoint, moveit::planning_interface::MoveGroupInterface &armGroup, moveit::planning_interface::MoveGroupInterface &gripperGroup)
+// executeWaypoint
+// This function will move the robot to the specified waypoint
+// Input: ROS node handle
+// Output: Booelan value indicating whether the gripper moved to the specified configuration
 bool executeWaypoint(std::vector<double> waypoint, ros::NodeHandle &n)
 {
   bool status = true;
@@ -301,28 +118,13 @@ bool executeWaypoint(std::vector<double> waypoint, ros::NodeHandle &n)
 
   std::cout << "Executed the waypoint" << std::endl;
   return status;
-  /*armGroup.setGoalJointTolerance(0.01);
-  std::vector<double> jointTarget = std::vector<double>(waypoint.begin(), waypoint.end()); // Copy all values but the last, which contains gripper position
-  armGroup.setJointValueTarget(jointTarget);
-  bool success = (armGroup.move() == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-
-  //double gripperVal = waypoint[7] * (GRIPPER_MAX_ABSOLUTE_POS - GRIPPER_MIN_ABSOLUTE_POS) + GRIPPER_MIN_ABSOLUTE_POS;
-  gripperGroup.setJointValueTarget(gripperGroup.getJointNames()[0], waypoint[7]);
-  success &= (gripperGroup.move() == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-  return success;*/
 }
-
 
 /*** Action server ***/
 void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Server* as, ros::NodeHandle &node_handle)
 {
   prog_support_backend::InterfaceRequestResult result;
   bool status;
-  //moveit::planning_interface::MoveGroupInterface::Options move_group_options("arm", "/my_gen3/robot_description");
-  //moveit::planning_interface::MoveGroupInterface armMoveGroup(move_group_options);
-  //moveit::planning_interface::MoveGroupInterface armMoveGroup("arm");  
-  //armMoveGroup.ROBOT_DESCRIPTION = "/my_gen3/robot_description";
-  //moveit::planning_interface::MoveGroupInterface gripperMoveGroup("gripper");   
 
   if (goal->request == TEACH)
   {
@@ -355,7 +157,6 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
   }
   else if (goal->request == ADD_WAYPOINT)
   {
-    //addWaypoint(armMoveGroup, gripperMoveGroup);
     addWaypoint(node_handle);
     result.conclusion = "Added waypoint into program";
     as->setSucceeded(result);
@@ -394,7 +195,6 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
   }
   else if (goal->request == REP_WAYPOINT)
   {
-    //bool status = replaceWaypoint(armMoveGroup, gripperMoveGroup, goal->optional_index_1);
     bool status = replaceWaypoint(node_handle, goal->optional_index_1);
     if (status)
     {
@@ -417,7 +217,6 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
     { 
       moveToWaypoint(node_handle, userProgram.getHeadValue()); // Account for not executing first waypoint sometimes
       std::cout << "Moved to initial position" << std::endl;
-      //bool status = userProgram.iterate(executeWaypoint, armMoveGroup, gripperMoveGroup);
 
       std::cout << "Executing program of size " << userProgram.size() << std::endl;
       Node<std::vector<double>>* currentNode = userProgram.getHead();
@@ -460,11 +259,9 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
               status = executeWaypoint(currentNode->value, node_handle);
               currentNode = currentNode->next;
           }
-          //exec_pub.publish(i);
           i++;
       }
 
-      //bool status = userProgram.iterate(executeWaypoint, node_handle);
       if (status)
       {
         result.conclusion = "Executed user program";
@@ -475,6 +272,7 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
         result.conclusion = "Failed to execute user program";
         as->setAborted(result);
       }  
+
       status = activateTeachMode(node_handle);
       if (!status)
       {
@@ -494,26 +292,6 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
     moveToWaypoint(node_handle, userProgram.getHeadValue()); // Account for not executing first waypoint sometimes
     std::cout << "Moved to initial position" << std::endl;
 
-    /*DoublyLinkedList<std::vector<double>> subProgram = userProgram.copyUpToIndex(goal->optional_index_1);
-    std::cout << "Executing program of size " << userProgram.size() << std::endl;
-    bool status = subProgram.iterate(executeWaypoint, node_handle);
-    if (status)
-    {
-      result.conclusion = "Executed user program until specified point";
-      as->setSucceeded(result);
-    }
-    else
-    {
-      result.conclusion = "Failed to execute user program until specified point";
-      as->setAborted(result);
-    }  
-    status = activateTeachMode(node_handle);
-    if (!status)
-    {
-      std::cout << "Failed to activate teach mode after program execution" << std::endl;
-    }*/
-
-
     bool status = userProgram.iterate_until(executeWaypoint, goal->optional_index_1, node_handle);
     if (status)
     {
@@ -524,8 +302,8 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
     {
       result.conclusion = "Failed to execute user program until specified point";
       as->setSucceeded(result);
-      //as->setAborted(result);
     }  
+
     status = activateTeachMode(node_handle);
     if (!status)
     {
@@ -553,11 +331,13 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
     int waypointNum = int(goal->optional_index_1);
     clearFaults(node_handle);
     std::cout << "GO_TO request with index " << waypointNum << std::endl;
+
     if (waypointNum== 0)
     {
       sendGripperCommand(node_handle, 0.00873365);
       moveToWaypoint(node_handle, userProgram.getHeadValue()); // Account for not executing first waypoint sometimes
     }
+
     moveToWaypoint(node_handle, userProgram.getValueAtIndex(waypointNum));
     result.conclusion = "Robot is moving to waypoint " + waypointNum;
     as->setSucceeded(result);
@@ -586,6 +366,7 @@ int main(int argc, char **argv)
   kortex_driver::SetJointSpeedSoftLimits service_send_joint_speed_soft_limits;
   service_send_joint_speed_soft_limits.request.input.control_mode = ANGULAR_TRAJECTORY;
   service_send_joint_speed_soft_limits.request.input.joint_speed_soft_limits = {20, 20, 20, 20, 17, 17, 17};
+
   if (!service_client_set_joint_speed_soft_limits.call(service_send_joint_speed_soft_limits))
   {
     std::string error_string = "Failed to call SetJointSpeedSoftLimits";
@@ -597,13 +378,13 @@ int main(int argc, char **argv)
   kortex_driver::SetJointAccelerationSoftLimits service_send_joint_acceleration_soft_limits;
   service_send_joint_acceleration_soft_limits.request.input.control_mode = ANGULAR_TRAJECTORY;
   service_send_joint_acceleration_soft_limits.request.input.joint_acceleration_soft_limits = {75, 75, 75, 75, 143, 143, 143};
+
   if (!service_client_set_joint_acceleration_soft_limits.call(service_send_joint_acceleration_soft_limits))
   {
     std::string error_string = "Failed to call SetJointAccelerationSoftLimits";
     ROS_ERROR("%s", error_string.c_str());
   }
-
-    std::cout << "Set acceleration limits" << std::endl;
+  std::cout << "Set acceleration limits" << std::endl;
 
   ros::AsyncSpinner spinner(2); 
   spinner.start();
@@ -611,11 +392,11 @@ int main(int argc, char **argv)
    // Subscribe to the Action Topic
   ros::Subscriber sub = node_handle.subscribe("/action_topic", 1000, notification_callback);
   waypoint_pub = node_handle.advertise<marker_package::Waypoint>("/waypoint", 1000);
-  //exec_pub = node_handle.advertise<uint8>("/waypoint", 1000);
 
   // We need to call this service to activate the Action Notification on the kortex_driver node.
   ros::ServiceClient service_client_activate_notif = node_handle.serviceClient<kortex_driver::OnNotificationActionTopic>("/base/activate_publishing_of_action_topic");
   kortex_driver::OnNotificationActionTopic service_activate_notif;
+  
   if (service_client_activate_notif.call(service_activate_notif))
   {
     ROS_INFO("Action notification activated!");
