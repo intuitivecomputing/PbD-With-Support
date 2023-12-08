@@ -20,7 +20,7 @@ The  front-end code has been deployed on a system running Ubuntu 20.04 (64-bit).
 The back-end code has been deployed on a system running Ubuntu 20.04 (64-bit). The software uses [ROS Noetic](http://wiki.ros.org/noetic), which can be installed by following the instructions [here](http://wiki.ros.org/noetic/Installation).
 
 ### Hardware
-The programming system may be used with any robot manipulator with kinesthetic teaching capabilities; instructions for how to set up the system for different robots are available below. 
+This programming system requires the use of a robot with kinesthetic teaching capabilities and a gripper; you must have access to code that can activate/deactivate the robot's kinesthetic teaching mode and move the robot and its gripper. Instructions for how to set up the system for different robots that meet the requirements above are available below. 
 
 ### Required ROS Packages
 
