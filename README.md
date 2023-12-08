@@ -36,10 +36,10 @@ To use the system, you will first need to modify the backend to work with the ro
 ### Modifying the Back-End
 The file [template.cpp](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/backend/prog_support_backend/src/template.cpp) includes starter code for the backend that handles program management and communication with the front-end interface. You will need to add code to the template for interfacing with the robot you are using (see the comments in the file for instructions). For an example of an instantiation of the template for the Kinova Gen3 7-DOF arm, please see [kinova_example.cpp](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/backend/prog_support_backend/src/kinova_example.cpp). 
 
-Once you are finished modifying the template, edit [CMakeLists.txt](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/backend/prog_support_backend/CMakeLists.txt) inside the prog_support_backend package so that it includes the lines:
-`add_executable(backend src/*replace with name of your file*.cpp)
- target_link_libraries(backend ${catkin_LIBRARIES})
- add_dependencies(
+Once you are finished modifying the template, add the following lines to [CMakeLists.txt](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/backend/prog_support_backend/CMakeLists.txt) inside the prog_support_backend package (remember to replace the placeholder below with your file name):
+`add_executable(backend src/*replace with name of your file*.cpp)`
+`target_link_libraries(backend ${catkin_LIBRARIES})`
+`add_dependencies(
    backend
    ${${PROJECT_NAME}_EXPORTED_TARGETS}
  )`
