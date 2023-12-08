@@ -74,3 +74,5 @@ To populate the support content available on the help menu and chat assistant, y
 ### Running the Example
 Note that if you would like to the programming system with the Kinova Gen3 7-DOF arm, you must compile the following package in your catkin workspace: [icl_kortex](https://github.com/intuitivecomputing/icl_kortex).
 Then, in the steps listed above for running the system, run `rosrun prog_support_backend kinova_example` instead of `rosrun prog_support_backend backend`
+
+For additional development questions that are not covered in this README, we welcome developers to open an issue or contact the author at gopika@cs.jhu.edu.
