@@ -142,11 +142,10 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-## add_executable(baseline_interface src/baseline_interface.cpp)
- add_executable(backend src/backend_v2.cpp)
- target_link_libraries(backend ${catkin_LIBRARIES})
+ add_executable(kinova_example src/kinova_example.cpp)
+ target_link_libraries(kinova_example ${catkin_LIBRARIES})
  add_dependencies(
-   backend
+   kinova_example
    ${${PROJECT_NAME}_EXPORTED_TARGETS}
  )
 
