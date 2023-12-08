@@ -60,15 +60,17 @@ You will also need to modify the file [marker_publisher.launch](https://github.c
 
 Then, recompile your catkin workspace. 
 
-### Modifying the Support Content 
-To populate the support content available on the help menu and chat assistant, you can create JSON files specifying the content you would like to display. A tutorial on how to create the JSON files is availabile [here](https://docs.google.com/document/d/12tyInR8hcHN3QSnFdj-3iuF3VUZldVw9KjV0NjFBORo/edit?usp=sharing). After creating the files, you may upload them
-
+### Running the System
 To run the system, open a terminal on Ubuntu and run the following scripts:
-- Run the driver for your robot.
+- Run driver and/or any other necessary code required for your robot.
 - On a new tab or terminal, run the following script: `roslaunch prog_support_backend web_communication.launch`
 - On a new tab or terminal, run the following script: `rosrun prog_support_backend backend`
-- On a new tab or terminal, run the following script: `rosrun marker_package marker_publisher.py`
+- On a new tab or terminal, run the following script: `roslaunch marker_package marker_publisher.launch`
 
 Then, open up a web browser and pull up the index.html file (or appropriate domain if you have hosted the frontend interface on the web).
 
-- [icl_kortex](https://github.com/intuitivecomputing/icl_kortex)
+To populate the support content available on the help menu and chat assistant, you must create JSON files specifying the content you would like to display. A tutorial on how to create the JSON files is available [here](https://docs.google.com/document/d/12tyInR8hcHN3QSnFdj-3iuF3VUZldVw9KjV0NjFBORo/edit?usp=sharing). After creating the files, you may upload them on the web interface by clicking the "Upload customization file" buttons. Example JSON files are available for the the help menu [here](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/frontend/examples/helpmenu.json) and for the chat assistant [here](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/frontend/examples/chatbot.json).
+
+### Running the Example
+Note that if you would like to the programming system with the Kinova Gen3 7-DOF arm, you must compile the following package in your catkin workspace: [icl_kortex](https://github.com/intuitivecomputing/icl_kortex).
+Then, in the steps listed above for running the system, run `rosrun prog_support_backend kinova_example` instead of `rosrun prog_support_backend backend`
