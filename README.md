@@ -31,10 +31,10 @@ This programming system requires the use of a robot with kinesthetic teaching ca
 - - - -
 
 ## Usage
-To use the system, you will need to create a catkin workspace that contains the two back-end subdirectories (prog_support_backend and prog_support_marker), as well as the required ROS packages specified above and any packages required for the robot you are using (i.e., robot driver). You will first need to modify the backend to work with the robot you will be using and prepare JSON files specifying the content you would like the help menu and chat assistant to display.
+To use the system, you will need to create a catkin workspace that contains the two back-end subdirectories (prog_support_backend and prog_support_marker), as well as the required ROS packages specified above and any packages required for the robot you are using (i.e., robot driver). You will first need to modify the back-end code to work with the robot you will be using and prepare JSON files specifying the content you would like the help menu and chat assistant to display.
 
-### Modifying the Back-End
-The file [template.cpp](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/backend/prog_support_backend/src/template.cpp) includes starter code for the backend that handles program management and communication with the front-end interface. You will need to add code to the template for interfacing with the robot you are using (see the comments in the file for instructions). For an example of an instantiation of the template for the Kinova Gen3 7-DOF arm, please see [kinova_example.cpp](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/backend/prog_support_backend/src/kinova_example.cpp). 
+### Modifying the Back-End Code
+The file [template.cpp](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/backend/prog_support_backend/src/template.cpp) includes starter code for the back-end that handles program management and communication with the front-end interface. You will need to add code to the template for interfacing with the robot you are using (see the comments in the file for instructions). For an example of an instantiation of the template for the Kinova Gen3 7-DOF arm, please see [kinova_example.cpp](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/backend/prog_support_backend/src/kinova_example.cpp). 
 
 Once you are finished modifying the template, add the following lines to [CMakeLists.txt](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/backend/prog_support_backend/CMakeLists.txt) inside the prog_support_backend package (remember to replace the placeholder below with your file name):
 
@@ -60,7 +60,8 @@ You will also need to modify the file [marker_publisher.launch](https://github.c
 
 Then, recompile your catkin workspace. 
 
-
+### Modifying the Support Content 
+To populate the support content available on the help menu and chat assistant, you can create JSON files specifying the content you would like to display. A tutorial on how to create the JSON files is availabile [here](https://docs.google.com/document/d/12tyInR8hcHN3QSnFdj-3iuF3VUZldVw9KjV0NjFBORo/edit?usp=sharing). After creating the files, you may upload them
 
 To run the system, open a terminal on Ubuntu and run the following scripts:
 - Run the driver for your robot.
