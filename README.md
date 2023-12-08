@@ -38,13 +38,23 @@ The file [template.cpp](https://github.com/intuitivecomputing/PbD-With-Support/b
 
 Once you are finished modifying the template, add the following lines to [CMakeLists.txt](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/backend/prog_support_backend/CMakeLists.txt) inside the prog_support_backend package (remember to replace the placeholder below with your file name):
 `add_executable(backend src/*replace with name of your file*.cpp)`
+
 `target_link_libraries(backend ${catkin_LIBRARIES})`
+
 `add_dependencies(
    backend
    ${${PROJECT_NAME}_EXPORTED_TARGETS}
  )`
 
-You will also need to modify the file [
+You will also need to modify the file [marker_publisher.launch](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/backend/prog_support_marker/launch/marker_publisher.launch) to specify the tf frames for your robot's base and end effector in the following lines:
+`<!-- Change the base_frame name based on your robot type-->`
+
+`<arg name="base_frame" default="base_link"/>`
+
+`<!-- Change the tool_frame name based on your robot type-->`
+
+`<arg name="tool_frame" default="tool_frame"/>`
+
 
 Then, recompile your catkin workspace. 
 
