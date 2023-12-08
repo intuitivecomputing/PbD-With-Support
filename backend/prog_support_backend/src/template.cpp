@@ -12,11 +12,9 @@
 typedef actionlib::SimpleActionServer<prog_support_backend::InterfaceRequestAction> Server;
 enum  Requests {TEACH=0, STOP_TEACH=1, ADD_WAYPOINT=2, DEL_WAYPOINT=3, MOVE_WAYPOINT=4, REP_WAYPOINT=5, EXEC=6, SELECT=7, EXEC_UNTIL=8, CLEAR_PROG=9, GO_TO=10, ADD_LOOP=11, DEL_LOOP=12};  // Types of requests from action client
 
-enum AdmittanceModes {JOINT=2, DISABLED=4};
-enum ControlModes {ANGULAR_TRAJECTORY=4};
-const double GRIPPER_MAX_ABSOLUTE_POS = 0.8;
-const double GRIPPER_MIN_ABSOLUTE_POS = 0.0;
-const int NUM_JOINTS = 7;
+// Robot-specific values
+const double GRIPPER_OPEN_STATE = 0.00873365; // Replace this value with the value representing your robot's open gripper state
+const int NUM_JOINTS = 7; // Replace this value with the number of joints your robot has
 
 // Replace double with the data type for your robot's joint values
 DoublyLinkedList<std::vector<double>> userProgram;
@@ -88,7 +86,7 @@ bool replaceWaypoint(ros::NodeHandle &n, int index)
 // moveToWaypoint
 // This function will move the robot to the provided set of joint states
 // Input: ROS node handle, vector containing a set of robot joint states (replace double with the data type for your robot's joint values)
-// Output: Boolean value indicating whether the robot moved to the specified configuration
+// Output: Boolean value indicating whether the robot successfully moved to the specified configuration
 bool moveToWaypoint(ros::NodeHandle &n, std::vector<double> pt)
 {
   /* Insert code here */
@@ -98,7 +96,7 @@ bool moveToWaypoint(ros::NodeHandle &n, std::vector<double> pt)
 // sendGripperCommand
 // This function will move the robot's gripper to the specified value
 // Input: ROS node handle, double value containing the desired state for the robot's gripper (replace double with the data type for your robot's gripper value)
-// Output: Boolean value indicating whether the gripper moved to the specified configuration
+// Output: Boolean value indicating whether the gripper successfully moved to the specified configuration
 bool sendGripperCommand(ros::NodeHandle n, double value)
 {
   /* Insert code here */
@@ -107,20 +105,24 @@ bool sendGripperCommand(ros::NodeHandle n, double value)
 
 // executeWaypoint
 // This function will move the robot to the specified waypoint
-// Input: ROS node handle
-// Output: Booelan value indicating whether the gripper moved to the specified configuration
+// Input: Waypoint to be executed (represented as a vector of double values representing the robot's joint states and gripper state, respectively; replace double with the data type your robot uses), ROS node handle
+// Output: Booelan value indicating whether the robot successfully moved to the specified waypoint
 bool executeWaypoint(std::vector<double> waypoint, ros::NodeHandle &n)
 {
   bool status = true;
   status &= clearFaults(n);
   status &= moveToWaypoint(n, waypoint);
-  status &= sendGripperCommand(n, waypoint[7]);
+  status &= sendGripperCommand(n, waypoint[NUM_JOINTS]);
 
   std::cout << "Executed the waypoint" << std::endl;
   return status;
 }
 
 /*** Action server ***/
+// execute
+// This function handles the requests coming from the frontend interface.
+// Input: Goal pointer, ROS node handle
+// Output: None
 void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Server* as, ros::NodeHandle &node_handle)
 {
   prog_support_backend::InterfaceRequestResult result;
@@ -128,16 +130,15 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
 
   if (goal->request == TEACH)
   {
-    ROS_INFO("Activating teach mode");
     status = activateTeachMode(node_handle);
     if (status)
     {
-      result.conclusion = "Set robot to joint mode";
+      result.conclusion = "Set robot to teach mode";
       as->setSucceeded(result);
     }
     else
     {
-      result.conclusion = "Failed to set robot to joint mode";
+      result.conclusion = "Failed to set robot to teach mode";
       as->setAborted(result);
     }    
   }
@@ -146,12 +147,12 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
     status = deactivateTeachMode(node_handle);
     if (status)
     {
-      result.conclusion = "Deactivated admittance";
+      result.conclusion = "Deactivated teach mode";
       as->setSucceeded(result);
     }
     else
     {
-      result.conclusion = "Failed to deactivate admittance";
+      result.conclusion = "Failed to deactivate teach mode";
       as->setAborted(result);
     }    
   }
@@ -210,17 +211,14 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
   else if (goal->request == EXEC)
   {
     int i = 0;
-    clearFaults(node_handle);
-    sendGripperCommand(node_handle, 0.00873365);
+    sendGripperCommand(node_handle, GRIPPER_OPEN_STATE);
 
     if (userProgram.getHead() != nullptr)
     { 
-      moveToWaypoint(node_handle, userProgram.getHeadValue()); // Account for not executing first waypoint sometimes
-      std::cout << "Moved to initial position" << std::endl;
+      moveToWaypoint(node_handle, userProgram.getHeadValue()); // Account for not executing first waypoint sometimes; remove this line if not necessary for your robot
 
-      std::cout << "Executing program of size " << userProgram.size() << std::endl;
       Node<std::vector<double>>* currentNode = userProgram.getHead();
-       bool status;
+      bool status;
 
       while (currentNode != nullptr) 
       {
@@ -229,7 +227,6 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
               int loopIterations = currentNode->loop->loopCount;
               int loopStartIndex = currentNode->loop->startIndex;
               int loopEndIndex = currentNode->loop->endIndex;
-              std::cout << "Executing loop of iterations " << loopIterations << " with start index " << loopStartIndex << " and end index " << loopEndIndex << std::endl;
 
               // Execute the loop content.
               Node<std::vector<double>>* loopStartNode = userProgram.getNodeAtIndex(loopStartIndex);
@@ -243,7 +240,6 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
 
               for (int i = 0; i < loopIterations; ++i) 
               {
-                std::cout << "Starting loop iteration number " << i  << std::endl;
                 currentNode = loopStartNode;
                 do
                 {
@@ -254,7 +250,6 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
           } 
           else 
           {
-              std::cout << "Executing waypoint that is not in a loop " << std::endl;
               // Execute the current waypoint.
               status = executeWaypoint(currentNode->value, node_handle);
               currentNode = currentNode->next;
@@ -287,8 +282,7 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
   }
   else if (goal->request == EXEC_UNTIL)
   {
-    clearFaults(node_handle);
-    sendGripperCommand(node_handle, 0.00873365);
+    sendGripperCommand(node_handle, GRIPPER_OPEN_STATE);
     moveToWaypoint(node_handle, userProgram.getHeadValue()); // Account for not executing first waypoint sometimes
     std::cout << "Moved to initial position" << std::endl;
 
@@ -330,11 +324,10 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
   {
     int waypointNum = int(goal->optional_index_1);
     clearFaults(node_handle);
-    std::cout << "GO_TO request with index " << waypointNum << std::endl;
 
     if (waypointNum== 0)
     {
-      sendGripperCommand(node_handle, 0.00873365);
+      sendGripperCommand(node_handle, GRIPPER_OPEN_STATE);
       moveToWaypoint(node_handle, userProgram.getHeadValue()); // Account for not executing first waypoint sometimes
     }
 
@@ -346,7 +339,6 @@ void execute(const prog_support_backend::InterfaceRequestGoalConstPtr& goal, Ser
   {
     userProgram.insertLoop(goal->optional_index_2, goal->optional_index_3, goal->optional_index_1);
     result.conclusion = "Added a loop of iterations " + std::to_string(goal->optional_index_1) + " starting at " + std::to_string(goal->optional_index_2) + " and ending at " + std::to_string(goal->optional_index_3);
-    std::cout << "Added a loop of iterations " << std::to_string(goal->optional_index_1) << " starting at " << std::to_string(goal->optional_index_2) << " and ending at " << std::to_string(goal->optional_index_3) << std::endl;
     as->setSucceeded(result);
   }
   else if (goal->request == DEL_LOOP)
@@ -362,29 +354,7 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "backend");
   ros::NodeHandle node_handle;
 
-  ros::ServiceClient service_client_set_joint_speed_soft_limits = node_handle.serviceClient<kortex_driver::SetJointSpeedSoftLimits>("/control_config/set_joint_speed_soft_limits");
-  kortex_driver::SetJointSpeedSoftLimits service_send_joint_speed_soft_limits;
-  service_send_joint_speed_soft_limits.request.input.control_mode = ANGULAR_TRAJECTORY;
-  service_send_joint_speed_soft_limits.request.input.joint_speed_soft_limits = {20, 20, 20, 20, 17, 17, 17};
-
-  if (!service_client_set_joint_speed_soft_limits.call(service_send_joint_speed_soft_limits))
-  {
-    std::string error_string = "Failed to call SetJointSpeedSoftLimits";
-    ROS_ERROR("%s", error_string.c_str());
-  }
-  std::cout << "Set speed limits" << std::endl;
-
-  ros::ServiceClient service_client_set_joint_acceleration_soft_limits = node_handle.serviceClient<kortex_driver::SetJointAccelerationSoftLimits>("/control_config/set_joint_acceleration_soft_limits");
-  kortex_driver::SetJointAccelerationSoftLimits service_send_joint_acceleration_soft_limits;
-  service_send_joint_acceleration_soft_limits.request.input.control_mode = ANGULAR_TRAJECTORY;
-  service_send_joint_acceleration_soft_limits.request.input.joint_acceleration_soft_limits = {75, 75, 75, 75, 143, 143, 143};
-
-  if (!service_client_set_joint_acceleration_soft_limits.call(service_send_joint_acceleration_soft_limits))
-  {
-    std::string error_string = "Failed to call SetJointAccelerationSoftLimits";
-    ROS_ERROR("%s", error_string.c_str());
-  }
-  std::cout << "Set acceleration limits" << std::endl;
+  /* Insert any necessary robot setup/initialization code here */
 
   ros::AsyncSpinner spinner(2); 
   spinner.start();
@@ -392,20 +362,6 @@ int main(int argc, char **argv)
    // Subscribe to the Action Topic
   ros::Subscriber sub = node_handle.subscribe("/action_topic", 1000, notification_callback);
   waypoint_pub = node_handle.advertise<marker_package::Waypoint>("/waypoint", 1000);
-
-  // We need to call this service to activate the Action Notification on the kortex_driver node.
-  ros::ServiceClient service_client_activate_notif = node_handle.serviceClient<kortex_driver::OnNotificationActionTopic>("/base/activate_publishing_of_action_topic");
-  kortex_driver::OnNotificationActionTopic service_activate_notif;
-  
-  if (service_client_activate_notif.call(service_activate_notif))
-  {
-    ROS_INFO("Action notification activated!");
-  }
-  else 
-  {
-    std::string error_string = "Action notification publication failed";
-    ROS_ERROR("%s", error_string.c_str());
-  }
 
   Server server(node_handle, "interface_controller", boost::bind(&execute, _1, &server, boost::ref(node_handle)), false);
   server.start();
