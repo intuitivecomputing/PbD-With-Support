@@ -1,4 +1,0 @@
-<launch>
-    <!--<node name="baseline_interface" pkg="prog_support_backend" type="baseline_interface.cpp" />-->
-    <node name="marker_publisher" pkg="marker_package" type="marker_publisher.py" />
-</launch>

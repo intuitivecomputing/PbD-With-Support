@@ -1,0 +1,13 @@
+<launch>
+    <!-- Define parameters -->
+    <!-- Change the base_frame name based on your robot type-->
+    <arg name="base_frame" default="base_link"/>
+    <!-- Change the tool_frame name based on your robot type-->
+    <arg name="tool_frame" default="tool_frame"/>
+
+    <!-- Node for marker_publisher.py -->
+    <node name="marker_publisher" pkg="YOUR_PACKAGE_NAME" type="marker_publisher.py" output="screen">
+        <param name="base_frame" value="$(arg base_frame)"/>
+        <param name="tool_frame" value="$(arg tool_frame)"/>
+    </node>
+</launch>
