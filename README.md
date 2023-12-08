@@ -31,6 +31,19 @@ The programming system may be used with any robot manipulator with kinesthetic t
 - - - -
 
 ## Usage
+To use the system, you will first need to modify the backend to work with the robot you will be using and prepare JSON files specifying the content you would like the help menu and chat assistant to display.
+
+### Modifying the Back-End
+The file [template.cpp](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/backend/prog_support_backend/src/template.cpp) includes starter code for the backend that handles program management and communication with the front-end interface. You will need to add code to the template for interfacing with the robot you are using (see the comments in the file for instructions). For an example of an instantiation of the template for the Kinova Gen3 7-DOF arm, please see [kinova_example.cpp](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/backend/prog_support_backend/src/kinova_example.cpp). 
+
+Once you are finished modifying the template, edit [CMakeLists.txt](https://github.com/intuitivecomputing/PbD-With-Support/blob/main/backend/prog_support_backend/CMakeLists.txt) inside the prog_support_backend package so that it includes the lines:
+`add_executable(backend src/backend_v2.cpp)
+ target_link_libraries(backend ${catkin_LIBRARIES})
+ add_dependencies(
+   backend
+   ${${PROJECT_NAME}_EXPORTED_TARGETS}
+ )
+
 To run the system, open a terminal on Ubuntu and run the following scripts:
 - Run the driver for your robot.
 - On a new tab or terminal, run the following script: `roslaunch prog_support_backend web_communication.launch`
