@@ -42,7 +42,7 @@ Once you are finished modifying the template, edit [CMakeLists.txt](https://gith
  add_dependencies(
    backend
    ${${PROJECT_NAME}_EXPORTED_TARGETS}
- )'
+ )`
 
 To run the system, open a terminal on Ubuntu and run the following scripts:
 - Run the driver for your robot.
